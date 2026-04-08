@@ -1,5 +1,12 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { mockDashboard, mockCredits } from "@/lib/mock-data";
 
 function formatDollars(cents: number): string {
@@ -24,23 +31,26 @@ export default function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle>Active Cards</CardTitle>
+            <CardDescription>Cards being tracked</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-foreground">{d.cards.length}</p>
-            <p className="mt-1 text-sm text-muted-foreground">Cards being tracked</p>
+            <p className="text-3xl font-bold text-foreground">
+              {d.cards.length}
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
             <CardTitle>Credits Used</CardTitle>
+            <CardDescription>
+              {formatDollars(d.total_used_cents)} of{" "}
+              {formatDollars(d.total_available_cents)}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold text-primary">
               {d.credits_used}/{d.credits_total}
-            </p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {formatDollars(d.total_used_cents)} of {formatDollars(d.total_available_cents)}
             </p>
           </CardContent>
         </Card>
@@ -48,12 +58,14 @@ export default function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle>Unused Value</CardTitle>
+            <CardDescription>
+              Don&apos;t leave money on the table
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold text-warning">
               {formatDollars(d.total_unused_cents)}
             </p>
-            <p className="mt-1 text-sm text-muted-foreground">Don&apos;t leave money on the table</p>
           </CardContent>
         </Card>
       </div>
@@ -64,7 +76,7 @@ export default function DashboardPage() {
           <Card key={card.user_card_id}>
             <CardHeader>
               <CardTitle>{card.card_name}</CardTitle>
-              <p className="text-sm text-muted-foreground">{card.issuer}</p>
+              <CardDescription>{card.issuer}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-baseline justify-between">
@@ -72,33 +84,43 @@ export default function DashboardPage() {
                   {card.credits_used}/{card.credits_total} credits
                 </span>
                 <span className="text-sm font-medium text-foreground">
-                  {formatDollars(card.used_cents)}/{formatDollars(card.available_cents)}
+                  {formatDollars(card.used_cents)}/
+                  {formatDollars(card.available_cents)}
                 </span>
               </div>
-              <div className="mt-2 h-2 rounded-full bg-border">
-                <div
-                  className="h-2 rounded-full bg-primary transition-all"
-                  style={{
-                    width: `${card.available_cents ? (card.used_cents / card.available_cents) * 100 : 0}%`,
-                  }}
-                />
-              </div>
+              <Progress
+                value={
+                  card.available_cents
+                    ? (card.used_cents / card.available_cents) * 100
+                    : 0
+                }
+                className="mt-2"
+              />
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <h2 className="mt-10 text-lg font-semibold text-foreground">Recent Credits</h2>
+      <h2 className="mt-10 text-lg font-semibold text-foreground">
+        Recent Credits
+      </h2>
       <Card className="mt-4">
-        <CardContent className="pt-4">
+        <CardContent>
           <div className="divide-y divide-border">
             {mockCredits.map((credit) => {
               const badge = statusBadge[credit.status];
               return (
-                <div key={credit.id} className="flex items-center justify-between py-3">
+                <div
+                  key={credit.id}
+                  className="flex items-center justify-between py-3"
+                >
                   <div>
-                    <p className="text-sm font-medium text-foreground">{credit.credit_name}</p>
-                    <p className="text-xs text-muted-foreground">{credit.card_name}</p>
+                    <p className="text-sm font-medium text-foreground">
+                      {credit.credit_name}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {credit.card_name}
+                    </p>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-medium text-foreground">
