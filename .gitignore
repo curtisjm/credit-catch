@@ -51,6 +51,6 @@ next-env.d.ts
 
 # Nix
 .direnv/
-.nix-go-bin/
+.go/
+.postgres/
 result
-flake.lock
