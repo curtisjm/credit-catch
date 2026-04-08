@@ -1,7 +1,7 @@
 // API client for Credit Catch backend
 // Designed to consume the OpenAPI spec once available at shared/docs/api-spec.yaml
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 
 type RequestOptions = Omit<RequestInit, "body"> & {
   body?: unknown;

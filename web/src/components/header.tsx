@@ -15,10 +15,10 @@ export function Header() {
   };
 
   return (
-    <header className="border-b border-gray-200 bg-white">
+    <header className="border-b border-border bg-surface">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
-          <Link href="/dashboard" className="text-xl font-bold text-gray-900">
+          <Link href="/dashboard" className="text-xl font-bold text-primary">
             Credit Catch
           </Link>
           <Nav />

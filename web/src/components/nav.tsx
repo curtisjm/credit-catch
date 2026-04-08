@@ -23,8 +23,8 @@ export function Nav() {
             href={item.href}
             className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
               active
-                ? "bg-indigo-50 text-indigo-700"
-                : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                ? "bg-primary/15 text-primary"
+                : "text-muted-foreground hover:bg-surface hover:text-foreground"
             }`}
           >
             {item.label}

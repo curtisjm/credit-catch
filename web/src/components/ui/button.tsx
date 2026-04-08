@@ -2,13 +2,13 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
 
 const variants = {
   primary:
-    "bg-indigo-600 text-white hover:bg-indigo-700 focus-visible:ring-indigo-500",
+    "bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary",
   secondary:
-    "bg-white text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50 focus-visible:ring-indigo-500",
+    "bg-surface text-foreground ring-1 ring-border hover:bg-border/50 focus-visible:ring-primary",
   danger:
-    "bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500",
+    "bg-danger text-white hover:bg-danger/90 focus-visible:ring-danger",
   ghost:
-    "text-gray-700 hover:bg-gray-100 focus-visible:ring-indigo-500",
+    "text-muted-foreground hover:bg-surface hover:text-foreground focus-visible:ring-primary",
 } as const;
 
 const sizes = {

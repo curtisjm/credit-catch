@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function SettingsPage() {
   return (
     <>
-      <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+      <h1 className="text-2xl font-bold text-foreground">Settings</h1>
 
       <div className="mt-6 space-y-6">
         <Card>
@@ -11,7 +11,7 @@ export default function SettingsPage() {
             <CardTitle>Profile</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               Profile settings will be available once connected to the API.
             </p>
           </CardContent>
@@ -22,7 +22,7 @@ export default function SettingsPage() {
             <CardTitle>Notifications</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               Notification preferences will be available once connected to the
               API.
             </p>
