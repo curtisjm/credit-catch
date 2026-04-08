@@ -7,7 +7,7 @@ build:
 	go build -o bin/$(BINARY) ./cmd/server
 
 run: build
-	DATABASE_URL=$(DB_URL) JWT_SECRET=dev-secret-change-me ./bin/$(BINARY)
+	DATABASE_URL=$(DB_URL) JWT_SECRET=dev-secret-change-me PORT=$(or $(API_PORT),8080) ./bin/$(BINARY)
 
 test:
 	go test ./... -v -race -count=1

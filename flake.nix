@@ -73,7 +73,7 @@
             export PGDATABASE="${pgdb}"
             export DATABASE_URL="postgres://${pguser}@localhost:${pgport}/${pgdb}?host=$PGHOST&sslmode=disable"
             export JWT_SECRET="dev-secret-do-not-use-in-production"
-            export PORT="8080"
+            export API_PORT="8080"
             export ENVIRONMENT="development"
 
             export GOBIN="$PWD/.go/bin"
