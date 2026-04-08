@@ -131,7 +131,7 @@
       "lounge_access": [
         { "network": "chase_sapphire_lounges", "guests": 2, "cost_per_guest": 0 },
         { "network": "priority_pass", "locations": 1300, "guests": 2, "cost_per_guest": 0 },
-        { "network": "air_canada_maple_leaf", "condition": "With eligible boarding pass, excludes Montreal and Signature Suites" }
+        { "network": "air_canada_maple_leaf", "guests": 1, "cost_per_guest": 59, "condition": "With eligible boarding pass, excludes Montreal and Signature Suites. Includes Air Canada Cafes." }
       ],
       "hotel_status": [
         { "program": "ihg_one_rewards", "tier": "platinum_elite", "expires": "2027-12-31" }
@@ -154,6 +154,7 @@
         "threshold": 75000,
         "rewards": [
           "IHG One Rewards Diamond Elite Status",
+          "World of Hyatt Explorist Status",
           "$250 credit at The Shops at Chase",
           "$500 Southwest Airlines Chase Travel credit",
           "Southwest Airlines A-List status"
@@ -194,7 +195,18 @@
           "frequency": "annual",
           "scope": ["food_delivery"],
           "condition": "Complimentary DoorDash DashPass for 12 months",
-          "enrollment_required": true
+          "enrollment_required": true,
+          "expires": "2027-12-31"
+        },
+        {
+          "id": "csp-doordash-promos",
+          "name": "DoorDash Monthly Non-Restaurant Credit",
+          "value_annual": 120,
+          "frequency": "monthly",
+          "per_period_max": 10,
+          "scope": ["food_delivery"],
+          "condition": "$10/mo non-restaurant DoorDash orders (groceries, retail, etc.)",
+          "auto_apply": false
         }
       ],
       "perks": [
@@ -205,11 +217,13 @@
         }
       ],
       "protections": [
-        { "type": "trip_cancellation", "max_per_traveler": 5000, "max_per_trip": 10000 },
+        { "type": "trip_cancellation", "max_per_traveler": 10000, "max_per_trip": 20000 },
         { "type": "trip_delay", "max_per_traveler": 500, "threshold_hours": 12 },
-        { "type": "auto_rental", "coverage": "primary", "max": 75000 },
+        { "type": "auto_rental", "coverage": "primary", "max": 60000 },
+        { "type": "travel_accident", "max": 500000 },
         { "type": "lost_luggage", "max_per_traveler": 3000 },
-        { "type": "purchase_protection", "days": 120, "max_per_item": 10000 },
+        { "type": "baggage_delay", "per_day": 100, "max_days": 5 },
+        { "type": "purchase_protection", "days": 120, "max_per_item": 500, "max_per_account": 50000 },
         { "type": "extended_warranty", "additional_years": 1 }
       ]
     },
@@ -253,7 +267,7 @@
           "frequency": "monthly",
           "per_period_max": 25,
           "scope": ["streaming"],
-          "condition": "Paramount+, YouTube Premium, YouTube TV, Disney+, ESPN+, Hulu, NYT, Peacock, WSJ",
+          "condition": "Paramount+, YouTube Premium, YouTube TV, Disney+, ESPN, Hulu, NYT, Peacock, WSJ",
           "enrollment_required": true
         },
         {
@@ -276,6 +290,16 @@
           "december_amount": 35
         },
         {
+          "id": "plat-uber-one",
+          "name": "Uber One Membership Credit",
+          "value_annual": 120,
+          "frequency": "monthly",
+          "per_period_max": 10,
+          "scope": ["rideshare", "food_delivery"],
+          "condition": "Statement credit for auto-renewing Uber One membership ($10/mo)",
+          "enrollment_required": true
+        },
+        {
           "id": "plat-clear",
           "name": "CLEAR+ Membership Credit",
           "value_annual": 209,
@@ -294,6 +318,15 @@
           "enrollment_required": true
         },
         {
+          "id": "plat-oura",
+          "name": "Oura Ring Credit",
+          "value_annual": 200,
+          "frequency": "annual",
+          "scope": ["shopping"],
+          "condition": "Oura Ring hardware purchases at ouraring.com. Excludes subscriptions and accessories.",
+          "enrollment_required": true
+        },
+        {
           "id": "plat-saks",
           "name": "Saks Fifth Avenue Credit",
           "value_annual": 100,
@@ -302,7 +335,8 @@
           "periods": ["jan-jun", "jul-dec"],
           "scope": ["shopping"],
           "condition": "Purchases at Saks Fifth Avenue stores or saks.com",
-          "enrollment_required": true
+          "enrollment_required": true,
+          "expires": "2026-06-30"
         },
         {
           "id": "plat-global-entry",
@@ -342,6 +376,7 @@
         { "category": "dining", "rate": 4, "unit": "points", "cap_annual": 50000, "note": "Restaurants worldwide including takeout and delivery in the U.S." },
         { "category": "grocery", "rate": 4, "unit": "points", "cap_annual": 25000, "condition": "U.S. supermarkets only, not Walmart/Target/wholesale clubs" },
         { "category": "flights", "rate": 3, "unit": "points", "condition": "Booked directly with airline or on AmexTravel.com" },
+        { "category": "travel_portal", "rate": 2, "unit": "points", "portal": "amex_travel", "condition": "Prepaid hotels on AmexTravel.com" },
         { "category": "other", "rate": 1, "unit": "points" }
       ],
       "credits": [
@@ -386,7 +421,6 @@
       ],
       "protections": [
         { "type": "purchase_protection", "days": 90, "max_per_item": 10000 },
-        { "type": "return_protection", "days": 90, "max_per_item": 300 },
         { "type": "extended_warranty", "additional_years": 1 }
       ]
     },
@@ -418,7 +452,7 @@
       ],
       "protections": [
         { "type": "auto_rental", "coverage": "secondary" },
-        { "type": "lost_luggage", "max_per_traveler": 1250 },
+        { "type": "lost_luggage", "max_carry_on": 1250, "max_checked": 500 },
         { "type": "purchase_protection", "days": 90 },
         { "type": "return_protection", "days": 90 },
         { "type": "extended_warranty", "additional_years": 1 }
@@ -438,6 +472,8 @@
         { "category": "car_rentals", "rate": 10, "unit": "miles", "portal": "capital_one_travel" },
         { "category": "flights", "rate": 5, "unit": "miles", "portal": "capital_one_travel" },
         { "category": "vacation_rentals", "rate": 5, "unit": "miles", "portal": "capital_one_travel" },
+        { "category": "activities", "rate": 5, "unit": "miles", "portal": "capital_one_travel" },
+        { "category": "entertainment_portal", "rate": 5, "unit": "miles", "portal": "capital_one_entertainment" },
         { "category": "other", "rate": 2, "unit": "miles" }
       ],
       "credits": [
@@ -460,8 +496,8 @@
         }
       ],
       "lounge_access": [
-        { "network": "capital_one_lounges", "guests": 0, "cost_per_guest": 35, "note": "Free guest access requires $75k annual spend. No guest access otherwise as of Feb 2026." },
-        { "network": "priority_pass", "locations": 1300, "guests": 0, "cost_per_guest": 35, "note": "As of Feb 2026, $35/guest" }
+        { "network": "capital_one_lounges", "guests": 0, "cost_per_adult_guest": 45, "cost_per_child_guest": 25, "note": "Free 2 guests with $75k annual spend. Otherwise $45/adult, $25 ages 2-17, free under 2. $125/yr per AU for lounge access (up to 4 AUs)." },
+        { "network": "priority_pass", "locations": 1300, "guests": 0, "cost_per_guest": 35, "note": "As of Feb 2026, $35/guest. $75k spend does NOT unlock free PP guests." }
       ],
       "perks": [
         {
@@ -471,11 +507,12 @@
         }
       ],
       "protections": [
-        { "type": "trip_cancellation", "max_per_trip": 5000 },
+        { "type": "trip_cancellation", "max_per_person": 2000, "max_per_trip": 4000 },
         { "type": "trip_delay", "max": 500, "threshold_hours": 6 },
         { "type": "auto_rental", "coverage": "primary" },
         { "type": "lost_luggage", "max_per_traveler": 3000 },
-        { "type": "purchase_protection", "days": 120 },
+        { "type": "cellphone_protection", "max_per_claim": 800, "deductible": 50, "max_claims_annual": 2 },
+        { "type": "purchase_protection", "days": 90, "max_per_claim": 10000, "max_annual": 50000 },
         { "type": "extended_warranty", "additional_years": 1 }
       ]
     },
@@ -489,7 +526,10 @@
       "currency": "capital_one_miles",
       "point_value_cpp": 1.0,
       "earning": [
-        { "category": "travel_portal", "rate": 5, "unit": "miles", "portal": "capital_one_travel" },
+        { "category": "hotels", "rate": 5, "unit": "miles", "portal": "capital_one_travel" },
+        { "category": "vacation_rentals", "rate": 5, "unit": "miles", "portal": "capital_one_travel" },
+        { "category": "car_rentals", "rate": 5, "unit": "miles", "portal": "capital_one_travel" },
+        { "category": "activities", "rate": 5, "unit": "miles", "portal": "capital_one_travel" },
         { "category": "entertainment_portal", "rate": 5, "unit": "miles", "portal": "capital_one_entertainment" },
         { "category": "other", "rate": 2, "unit": "miles" }
       ],
@@ -511,9 +551,9 @@
         }
       ],
       "protections": [
-        { "type": "travel_accident", "max": 250000 },
+        { "type": "travel_accident", "max": 500000 },
         { "type": "auto_rental", "coverage": "secondary" },
-        { "type": "lost_luggage", "max_per_traveler": 3000 },
+        { "type": "lost_luggage", "max_per_trip": 1500 },
         { "type": "extended_warranty", "additional_years": 1 }
       ]
     },
@@ -523,6 +563,7 @@
       "name": "Capital One Savor Cash Rewards",
       "issuer": "capital_one",
       "network": "mastercard",
+      "network_note": "New accounts may be issued on Discover network following Capital One acquisition of Discover. Existing Mastercard accounts transitioning at renewal.",
       "annual_fee": 0,
       "currency": "cash_back",
       "point_value_cpp": 1.0,
@@ -531,6 +572,7 @@
         { "category": "hotels", "rate": 5, "unit": "percent", "portal": "capital_one_travel" },
         { "category": "car_rentals", "rate": 5, "unit": "percent", "portal": "capital_one_travel" },
         { "category": "vacation_rentals", "rate": 5, "unit": "percent", "portal": "capital_one_travel" },
+        { "category": "activities", "rate": 5, "unit": "percent", "portal": "capital_one_travel" },
         { "category": "dining", "rate": 3, "unit": "percent" },
         { "category": "entertainment", "rate": 3, "unit": "percent" },
         { "category": "streaming", "rate": 3, "unit": "percent" },
@@ -557,7 +599,9 @@
         { "category": "car_rentals", "rate": 10, "unit": "points", "portal": "citi_travel" },
         { "category": "attractions", "rate": 10, "unit": "points", "portal": "citi_travel" },
         { "category": "flights", "rate": 3, "unit": "points" },
+        { "category": "hotels", "rate": 3, "unit": "points", "condition": "Booked directly with hotel" },
         { "category": "dining", "rate": 3, "unit": "points" },
+        { "category": "grocery", "rate": 3, "unit": "points", "condition": "U.S. supermarkets" },
         { "category": "gas", "rate": 3, "unit": "points", "note": "Gas stations and EV charging" },
         { "category": "other", "rate": 1, "unit": "points" }
       ],
@@ -576,9 +620,9 @@
       "protections": [
         { "type": "trip_delay", "max": 500 },
         { "type": "trip_cancellation", "max_per_trip": 5000 },
-        { "type": "auto_rental", "coverage": "primary", "note": "MasterRental Coverage" },
+        { "type": "auto_rental", "coverage": "secondary", "note": "MasterRental Coverage. Primary for international rentals only." },
         { "type": "lost_luggage", "max_per_traveler": 3000 },
-        { "type": "purchase_protection", "days": 120 }
+        { "type": "purchase_protection", "days": 90, "max_per_incident": 10000, "max_per_account": 50000 }
       ]
     },
 
@@ -598,7 +642,7 @@
       ],
       "credits": [],
       "protections": [
-        { "type": "purchase_protection", "days": 120 }
+        { "type": "extended_warranty", "additional_months": 24, "note": "Doubles manufacturer warranty up to 24 additional months" }
       ]
     },
 
@@ -626,7 +670,7 @@
       ],
       "credits": [],
       "protections": [
-        { "type": "purchase_protection", "days": 120 }
+        { "type": "extended_warranty", "additional_months": 24, "note": "Doubles manufacturer warranty up to 24 additional months" }
       ]
     },
 
@@ -709,7 +753,7 @@
           "unit": "percent",
           "cap_per_quarter": 1500,
           "note": "Must activate each quarter. Categories change quarterly.",
-          "q1_2026": ["grocery", "walgreens", "cvs"],
+          "q1_2026": ["grocery", "wholesale_clubs", "streaming"],
           "q2_2026": ["restaurants", "home_improvement"]
         },
         { "category": "other", "rate": 1, "unit": "percent" }
@@ -722,11 +766,7 @@
           "description": "Discover matches all cash back earned in the first year. Effectively doubles all earning rates for year one."
         }
       ],
-      "protections": [
-        { "type": "purchase_protection", "days": 90 },
-        { "type": "return_protection", "days": 90 },
-        { "type": "extended_warranty", "additional_years": 1 }
-      ]
+      "protections": []
     },
 
     {
@@ -756,8 +796,7 @@
       ],
       "protections": [
         { "type": "auto_rental", "coverage": "secondary" },
-        { "type": "travel_accident", "max": 250000 },
-        { "type": "lost_luggage", "max_per_traveler": 3000 }
+        { "type": "cellphone_protection", "max_per_claim": 600, "deductible": 25, "max_annual": 1200, "max_claims_annual": 2, "condition": "Must pay cell phone bill with this card" }
       ]
     },
 
@@ -782,9 +821,7 @@
       ],
       "protections": [
         { "type": "cellphone_protection", "max_per_claim": 600, "deductible": 25, "max_annual": 1200, "max_claims_annual": 2, "condition": "Must pay cell phone bill with this card" },
-        { "type": "auto_rental", "coverage": "secondary", "max": 50000 },
-        { "type": "purchase_protection", "days": 120 },
-        { "type": "extended_warranty", "additional_years": 1 }
+        { "type": "auto_rental", "coverage": "secondary", "max": 50000 }
       ]
     },
 
@@ -808,12 +845,12 @@
       "credits": [
         {
           "id": "bcp-disney-streaming",
-          "name": "Disney Streaming Bundle Credit",
+          "name": "Disney Streaming Credit",
           "value_annual": 120,
           "frequency": "monthly",
           "per_period_max": 10,
           "scope": ["streaming"],
-          "condition": "Disney+, Hulu, or ESPN+ subscriptions purchased at DisneyPlus.com, Hulu.com, or Stream.ESPN.com",
+          "condition": "Disney+, Hulu, or ESPN+ subscriptions (standalone or bundle) purchased at DisneyPlus.com, Hulu.com, or Stream.ESPN.com",
           "enrollment_required": true
         }
       ],
@@ -832,22 +869,25 @@
       "network": "visa",
       "annual_fee": 400,
       "currency": "altitude_points",
-      "point_value_cpp": 1.5,
+      "point_value_cpp": 1.0,
+      "point_value_note": "Reduced from 1.5cpp to 1.0cpp for travel redemptions effective December 15, 2025",
       "earning": [
+        { "category": "hotels", "rate": 10, "unit": "points", "portal": "us_bank_travel", "note": "Prepaid hotels via U.S. Bank Travel Center" },
+        { "category": "car_rentals", "rate": 10, "unit": "points", "portal": "us_bank_travel", "note": "Via U.S. Bank Travel Center" },
+        { "category": "flights", "rate": 5, "unit": "points", "portal": "us_bank_travel", "note": "Via U.S. Bank Travel Center" },
         { "category": "travel", "rate": 3, "unit": "points" },
-        { "category": "mobile_wallet", "rate": 3, "unit": "points", "cap_per_cycle": 5000, "note": "Apple Pay, Google Pay, Samsung Pay — any merchant" },
-        { "category": "dining", "rate": 3, "unit": "points", "note": "Also covers takeout and delivery" },
+        { "category": "mobile_wallet", "rate": 3, "unit": "points", "cap_per_cycle": 5000, "note": "Apple Pay, Google Pay, Samsung Pay — any merchant. Then 1x after cap." },
         { "category": "other", "rate": 1, "unit": "points" }
       ],
       "credits": [
         {
-          "id": "usar-travel-dining",
-          "name": "Annual Travel and Dining Credit",
+          "id": "usar-travel",
+          "name": "Annual Travel Credit",
           "value_annual": 325,
           "frequency": "annual",
-          "scope": ["travel", "dining"],
+          "scope": ["travel"],
           "auto_apply": true,
-          "note": "Covers eligible travel and dining/takeout/delivery purchases"
+          "note": "Covers eligible travel purchases booked through U.S. Bank Travel Center. Dining no longer qualifies as of Dec 2025."
         },
         {
           "id": "usar-global-entry",
@@ -862,13 +902,13 @@
         { "network": "priority_pass_select", "visits": 8, "note": "8 free visits per year to 1,500+ lounges" }
       ],
       "protections": [
-        { "type": "trip_cancellation", "max_per_trip": 5000 },
-        { "type": "trip_delay", "max": 500 },
-        { "type": "auto_rental", "coverage": "primary" },
+        { "type": "trip_cancellation", "max_per_trip": 2000 },
+        { "type": "trip_delay", "max": 500, "threshold_hours": 6 },
+        { "type": "auto_rental", "coverage": "primary", "max": 75000 },
         { "type": "lost_luggage", "max_per_traveler": 3000 },
-        { "type": "purchase_protection", "days": 120 },
+        { "type": "purchase_protection", "days": 90, "max_per_claim": 10000, "max_annual": 50000 },
         { "type": "extended_warranty", "additional_years": 1 },
-        { "type": "cellphone_protection", "max_per_claim": 600, "deductible": 25, "max_annual": 1200, "condition": "Must pay cell phone bill with this card" }
+        { "type": "cellphone_protection", "max_per_claim": 600, "deductible": 50, "max_annual": 1200, "max_claims_annual": 2, "condition": "Must pay cell phone bill with this card" }
       ]
     }
   ],
@@ -892,6 +932,7 @@
     "fitness": "Gym memberships, fitness subscriptions",
     "shopping": "General retail purchases",
     "travel_portal": "Purchases made through issuer's own travel booking portal",
+    "activities": "Tours, excursions, and activities booked through issuer's travel portal",
     "entertainment_portal": "Purchases made through issuer's own entertainment portal",
     "travel_services": "Global Entry, TSA PreCheck, CLEAR, and similar",
     "airline_incidentals": "Baggage fees, seat upgrades, in-flight purchases (not airfare)",
@@ -906,7 +947,8 @@
     "amex_travel": "amextravel.com",
     "capital_one_travel": "capitalone.com/travel",
     "capital_one_entertainment": "capitalone.com/entertainment",
-    "citi_travel": "citi.com/travel"
+    "citi_travel": "citi.com/travel",
+    "us_bank_travel": "travel.usbank.com"
   },
 
   "frequency_definitions": {
