@@ -28,7 +28,7 @@ migrations/
   001_initial_schema.up.sql     10 tables: users, cards, credits, plaid, transactions
   002_oauth_and_statement_day   OAuth accounts + statement_close_day on user_cards
   003_refresh_tokens            Refresh token rotation table
-docs/
+../shared/docs/
   api-spec.yaml                 OpenAPI 3.1 specification (17 endpoints)
 ```
 
@@ -105,7 +105,7 @@ Base URL: `/api/v1`
 | GET | `/me/dashboard/annual` | Annual breakdown by month |
 | GET | `/me/dashboard/monthly` | Monthly breakdown by card |
 
-Full API contract: [`docs/api-spec.yaml`](api-spec.yaml)
+Full API contract: [`shared/docs/api-spec.yaml`](../shared/docs/api-spec.yaml)
 
 ## Authentication
 
