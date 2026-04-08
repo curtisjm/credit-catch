@@ -607,6 +607,12 @@ components:
           type: string
           format: date
           nullable: true
+        statement_close_day:
+          type: integer
+          minimum: 1
+          maximum: 31
+          nullable: true
+          description: Day of month the statement closes (drives monthly credit periods)
         active:
           type: boolean
         created_at:
@@ -626,7 +632,7 @@ components:
 
     AddUserCardRequest:
       type: object
-      required: [card_catalog_id]
+      required: [card_catalog_id, statement_close_day]
       properties:
         card_catalog_id:
           type: string
@@ -639,6 +645,11 @@ components:
         annual_fee_date:
           type: string
           format: date
+        statement_close_day:
+          type: integer
+          minimum: 1
+          maximum: 31
+          description: Day of month the statement closes (required for monthly credit tracking)
 
     UpdateUserCardRequest:
       type: object
@@ -652,6 +663,11 @@ components:
         annual_fee_date:
           type: string
           format: date
+          nullable: true
+        statement_close_day:
+          type: integer
+          minimum: 1
+          maximum: 31
           nullable: true
         active:
           type: boolean

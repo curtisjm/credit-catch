@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"creditcatch/backend/internal/auth"
 	"creditcatch/backend/internal/config"
 
 	"github.com/go-chi/chi/v5"
@@ -18,6 +19,7 @@ type Server struct {
 	db     *pgxpool.Pool
 	config *config.Config
 	logger *slog.Logger
+	jwt    *auth.JWTIssuer
 }
 
 func New(db *pgxpool.Pool, cfg *config.Config, logger *slog.Logger) *Server {
@@ -26,6 +28,7 @@ func New(db *pgxpool.Pool, cfg *config.Config, logger *slog.Logger) *Server {
 		db:     db,
 		config: cfg,
 		logger: logger,
+		jwt:    auth.NewJWTIssuer(cfg.JWTSecret, cfg.JWTExpiry),
 	}
 	s.routes()
 	return s
@@ -45,7 +48,36 @@ func (s *Server) routes() {
 	s.router.Get("/health", s.handleHealth)
 
 	s.router.Route("/api/v1", func(r chi.Router) {
-		// Future endpoints registered here.
+		// Public auth routes.
+		r.Post("/auth/signup", s.handleSignup)
+		r.Post("/auth/login", s.handleLogin)
+		r.Post("/auth/refresh", s.handleRefresh)
+		r.Post("/auth/logout", s.handleLogout)
+		r.Post("/auth/oauth", s.handleOAuth)
+
+		// Public card catalog.
+		r.Get("/cards", s.handleListCards)
+		r.Get("/cards/{card_id}", s.handleGetCard)
+
+		// Authenticated routes.
+		r.Group(func(r chi.Router) {
+			r.Use(s.requireAuth)
+
+			r.Get("/me/cards", s.handleListUserCards)
+			r.Post("/me/cards", s.handleAddUserCard)
+			r.Get("/me/cards/{user_card_id}", s.handleGetUserCard)
+			r.Patch("/me/cards/{user_card_id}", s.handleUpdateUserCard)
+			r.Delete("/me/cards/{user_card_id}", s.handleDeleteUserCard)
+
+			r.Get("/me/credits", s.handleListCredits)
+			r.Get("/me/credits/current", s.handleCurrentCredits)
+			r.Post("/me/credits/{credit_period_id}/mark-used", s.handleMarkUsed)
+			r.Post("/me/credits/{credit_period_id}/mark-unused", s.handleMarkUnused)
+
+			r.Get("/me/dashboard/summary", s.handleDashboardSummary)
+			r.Get("/me/dashboard/annual", s.handleDashboardAnnual)
+			r.Get("/me/dashboard/monthly", s.handleDashboardMonthly)
+		})
 	})
 }
 
@@ -63,12 +95,16 @@ func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {
 		status = http.StatusServiceUnavailable
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(map[string]any{
+	writeJSON(w, status, map[string]any{
 		"status":   http.StatusText(status),
 		"database": dbOK,
 	})
+}
+
+func writeJSON(w http.ResponseWriter, status int, v any) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	json.NewEncoder(w).Encode(v)
 }
 
 func (s *Server) logRequest(next http.Handler) http.Handler {
