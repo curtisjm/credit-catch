@@ -35,3 +35,16 @@ Pods/
 # OS
 .DS_Store
 *.swp
+
+# Next.js
+.next/
+out/
+node_modules/
+
+# env
+.env.local
+.env.production
+
+# misc
+*.tsbuildinfo
+next-env.d.ts
