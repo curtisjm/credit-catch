@@ -48,3 +48,9 @@ node_modules/
 # misc
 *.tsbuildinfo
 next-env.d.ts
+
+# Nix
+.direnv/
+.nix-go-bin/
+result
+flake.lock
