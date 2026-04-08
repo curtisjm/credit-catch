@@ -6,7 +6,7 @@ struct CreditCatchApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView(authManager: env.authManager)
+            RootView(authManager: env.authManager, apiClient: env.apiClient)
         }
     }
 }
