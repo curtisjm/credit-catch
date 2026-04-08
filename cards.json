@@ -1,0 +1,921 @@
+{
+  "version": "2026-04-08",
+  "schema_version": "1.0",
+  "notes": "All data verified against issuer websites and major review sources as of April 2026. Amounts in USD.",
+  "cards": [
+    {
+      "id": "chase-sapphire-reserve",
+      "name": "Chase Sapphire Reserve",
+      "issuer": "chase",
+      "network": "visa",
+      "annual_fee": 795,
+      "authorized_user_fee": 195,
+      "currency": "ultimate_rewards",
+      "point_value_cpp": 1.5,
+      "earning": [
+        { "category": "travel_portal", "rate": 8, "unit": "points", "portal": "chase_travel", "note": "Includes The Edit bookings" },
+        { "category": "flights", "rate": 4, "unit": "points", "condition": "booked direct with airline" },
+        { "category": "hotels", "rate": 4, "unit": "points", "condition": "booked direct with hotel" },
+        { "category": "dining", "rate": 3, "unit": "points" },
+        { "category": "other", "rate": 1, "unit": "points" }
+      ],
+      "credits": [
+        {
+          "id": "csr-travel",
+          "name": "Annual Travel Credit",
+          "value_annual": 300,
+          "frequency": "annual",
+          "scope": ["airlines", "hotels", "car_rentals", "cruises", "travel_services"],
+          "auto_apply": true,
+          "note": "Statement credit on any travel purchase, very flexible"
+        },
+        {
+          "id": "csr-dining",
+          "name": "Exclusive Tables Dining Credit",
+          "value_annual": 300,
+          "frequency": "semi_annual",
+          "per_period_max": 150,
+          "periods": ["jan-jun", "jul-dec"],
+          "scope": ["dining"],
+          "condition": "Sapphire Exclusive Tables restaurants via OpenTable",
+          "auto_apply": true
+        },
+        {
+          "id": "csr-the-edit",
+          "name": "The Edit Hotel Credit",
+          "value_annual": 500,
+          "frequency": "per_use",
+          "per_use_max": 250,
+          "scope": ["hotels"],
+          "condition": "Prepaid bookings at The Edit hotel collection, 2-night minimum",
+          "auto_apply": true
+        },
+        {
+          "id": "csr-select-hotel",
+          "name": "Select Hotel Credit",
+          "value_annual": 250,
+          "frequency": "per_use",
+          "per_use_max": 250,
+          "scope": ["hotels"],
+          "condition": "Prepaid stays at IHG, Montage, Pendry, Omni, Virgin, Minor, Pan Pacific. 2-night minimum.",
+          "expires": "2026-12-31",
+          "auto_apply": true
+        },
+        {
+          "id": "csr-dashpass",
+          "name": "DashPass Membership",
+          "value_annual": 120,
+          "frequency": "annual",
+          "scope": ["food_delivery"],
+          "condition": "DoorDash DashPass: $0 delivery fees on eligible orders",
+          "enrollment_required": true,
+          "expires": "2027-12-31"
+        },
+        {
+          "id": "csr-doordash-promos",
+          "name": "DoorDash Monthly Credits",
+          "value_annual": 300,
+          "frequency": "monthly",
+          "per_period_max": 25,
+          "scope": ["food_delivery"],
+          "condition": "$5/mo restaurant discount + two $10/mo non-restaurant discounts",
+          "auto_apply": false
+        },
+        {
+          "id": "csr-apple-subs",
+          "name": "Apple Subscriptions",
+          "value_annual": 288,
+          "frequency": "annual",
+          "scope": ["streaming"],
+          "condition": "Complimentary Apple TV+ and Apple Music",
+          "expires": "2027-06-22"
+        },
+        {
+          "id": "csr-stubhub",
+          "name": "StubHub Credit",
+          "value_annual": 300,
+          "frequency": "semi_annual",
+          "per_period_max": 150,
+          "periods": ["jan-jun", "jul-dec"],
+          "scope": ["entertainment"],
+          "condition": "StubHub or viagogo purchases"
+        },
+        {
+          "id": "csr-lyft",
+          "name": "Lyft Credit",
+          "value_annual": 120,
+          "frequency": "monthly",
+          "per_period_max": 10,
+          "scope": ["rideshare"],
+          "condition": "Plus 5x points on Lyft rides",
+          "expires": "2027-09-30"
+        },
+        {
+          "id": "csr-peloton",
+          "name": "Peloton Credit",
+          "value_annual": 120,
+          "frequency": "monthly",
+          "per_period_max": 10,
+          "scope": ["fitness"],
+          "condition": "Eligible Peloton memberships. Plus 10x points on equipment over $150."
+        },
+        {
+          "id": "csr-global-entry",
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value_per_cycle": 120,
+          "frequency": "once_every_4_years",
+          "scope": ["travel_services"],
+          "auto_apply": true
+        }
+      ],
+      "lounge_access": [
+        { "network": "chase_sapphire_lounges", "guests": 2, "cost_per_guest": 0 },
+        { "network": "priority_pass", "locations": 1300, "guests": 2, "cost_per_guest": 0 },
+        { "network": "air_canada_maple_leaf", "condition": "With eligible boarding pass, excludes Montreal and Signature Suites" }
+      ],
+      "hotel_status": [
+        { "program": "ihg_one_rewards", "tier": "platinum_elite", "expires": "2027-12-31" }
+      ],
+      "protections": [
+        { "type": "trip_cancellation", "max_per_traveler": 10000, "max_per_trip": 20000 },
+        { "type": "trip_delay", "max_per_traveler": 500, "threshold_hours": 6 },
+        { "type": "auto_rental", "coverage": "primary", "max": 75000 },
+        { "type": "travel_accident", "max": 1000000 },
+        { "type": "lost_luggage", "max_per_traveler": 3000 },
+        { "type": "baggage_delay", "per_day": 100, "max_days": 5 },
+        { "type": "emergency_evacuation", "max": 100000 },
+        { "type": "emergency_medical", "max": 2500, "deductible": 50 },
+        { "type": "purchase_protection", "days": 120, "max_per_item": 10000 },
+        { "type": "return_protection", "days": 90, "max_per_item": 500, "max_annual": 1000 },
+        { "type": "extended_warranty", "additional_years": 1, "max_total_years": 4 },
+        { "type": "roadside_assistance", "max_per_incident": 50, "max_annual_incidents": 4 }
+      ],
+      "spend_bonuses": {
+        "threshold": 75000,
+        "rewards": [
+          "IHG One Rewards Diamond Elite Status",
+          "$250 credit at The Shops at Chase",
+          "$500 Southwest Airlines Chase Travel credit",
+          "Southwest Airlines A-List status"
+        ]
+      }
+    },
+
+    {
+      "id": "chase-sapphire-preferred",
+      "name": "Chase Sapphire Preferred",
+      "issuer": "chase",
+      "network": "visa",
+      "annual_fee": 95,
+      "currency": "ultimate_rewards",
+      "point_value_cpp": 1.25,
+      "earning": [
+        { "category": "travel_portal", "rate": 5, "unit": "points", "portal": "chase_travel" },
+        { "category": "dining", "rate": 3, "unit": "points" },
+        { "category": "online_grocery", "rate": 3, "unit": "points", "condition": "Online grocery purchases, excludes in-store and Target/Walmart" },
+        { "category": "streaming", "rate": 3, "unit": "points", "condition": "Select streaming services" },
+        { "category": "travel", "rate": 2, "unit": "points" },
+        { "category": "other", "rate": 1, "unit": "points" }
+      ],
+      "credits": [
+        {
+          "id": "csp-hotel",
+          "name": "Annual Hotel Credit",
+          "value_annual": 50,
+          "frequency": "annual",
+          "scope": ["hotels"],
+          "condition": "Prepaid hotels booked through Chase Travel portal",
+          "auto_apply": true
+        },
+        {
+          "id": "csp-dashpass",
+          "name": "DashPass Membership",
+          "value_annual": 120,
+          "frequency": "annual",
+          "scope": ["food_delivery"],
+          "condition": "Complimentary DoorDash DashPass for 12 months",
+          "enrollment_required": true
+        }
+      ],
+      "perks": [
+        {
+          "id": "csp-anniversary-bonus",
+          "name": "10% Anniversary Points Boost",
+          "description": "Each account anniversary, earn bonus points equal to 10% of total purchases made the previous year"
+        }
+      ],
+      "protections": [
+        { "type": "trip_cancellation", "max_per_traveler": 5000, "max_per_trip": 10000 },
+        { "type": "trip_delay", "max_per_traveler": 500, "threshold_hours": 12 },
+        { "type": "auto_rental", "coverage": "primary", "max": 75000 },
+        { "type": "lost_luggage", "max_per_traveler": 3000 },
+        { "type": "purchase_protection", "days": 120, "max_per_item": 10000 },
+        { "type": "extended_warranty", "additional_years": 1 }
+      ]
+    },
+
+    {
+      "id": "amex-platinum",
+      "name": "The Platinum Card from American Express",
+      "issuer": "amex",
+      "network": "amex",
+      "annual_fee": 895,
+      "currency": "membership_rewards",
+      "point_value_cpp": 2.0,
+      "earning": [
+        { "category": "flights", "rate": 5, "unit": "points", "condition": "Booked directly with airline or on AmexTravel.com" },
+        { "category": "travel_portal", "rate": 5, "unit": "points", "portal": "amex_travel", "condition": "Prepaid hotels and flights on AmexTravel.com" },
+        { "category": "other", "rate": 1, "unit": "points" }
+      ],
+      "credits": [
+        {
+          "id": "plat-fhr",
+          "name": "Fine Hotels + Resorts / Hotel Collection Credit",
+          "value_annual": 600,
+          "frequency": "semi_annual",
+          "per_period_max": 300,
+          "scope": ["hotels"],
+          "condition": "Prepaid bookings at FHR or The Hotel Collection via AmexTravel.com"
+        },
+        {
+          "id": "plat-resy",
+          "name": "Resy Restaurant Credit",
+          "value_annual": 400,
+          "frequency": "quarterly",
+          "per_period_max": 100,
+          "scope": ["dining"],
+          "condition": "Eligible purchases at U.S. Resy restaurants"
+        },
+        {
+          "id": "plat-entertainment",
+          "name": "Digital Entertainment Credit",
+          "value_annual": 300,
+          "frequency": "monthly",
+          "per_period_max": 25,
+          "scope": ["streaming"],
+          "condition": "Paramount+, YouTube Premium, YouTube TV, Disney+, ESPN+, Hulu, NYT, Peacock, WSJ",
+          "enrollment_required": true
+        },
+        {
+          "id": "plat-lululemon",
+          "name": "Lululemon Credit",
+          "value_annual": 300,
+          "frequency": "quarterly",
+          "per_period_max": 75,
+          "scope": ["shopping"],
+          "condition": "Eligible purchases at lululemon.com or lululemon stores"
+        },
+        {
+          "id": "plat-uber",
+          "name": "Uber Cash",
+          "value_annual": 200,
+          "frequency": "monthly",
+          "per_period_max": 15,
+          "scope": ["rideshare", "food_delivery"],
+          "condition": "$15/month Jan-Nov, $35 in December. Add card to Uber account. Does not roll over.",
+          "december_amount": 35
+        },
+        {
+          "id": "plat-clear",
+          "name": "CLEAR+ Membership Credit",
+          "value_annual": 209,
+          "frequency": "annual",
+          "scope": ["travel_services"],
+          "condition": "Statement credit for CLEAR+ membership auto-renewal",
+          "enrollment_required": true
+        },
+        {
+          "id": "plat-airline",
+          "name": "Airline Incidental Fee Credit",
+          "value_annual": 200,
+          "frequency": "annual",
+          "scope": ["airline_incidentals"],
+          "condition": "Select one airline per calendar year. Covers baggage fees, seat upgrades, in-flight purchases, etc.",
+          "enrollment_required": true
+        },
+        {
+          "id": "plat-saks",
+          "name": "Saks Fifth Avenue Credit",
+          "value_annual": 100,
+          "frequency": "semi_annual",
+          "per_period_max": 50,
+          "periods": ["jan-jun", "jul-dec"],
+          "scope": ["shopping"],
+          "condition": "Purchases at Saks Fifth Avenue stores or saks.com",
+          "enrollment_required": true
+        },
+        {
+          "id": "plat-global-entry",
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value_per_cycle": 120,
+          "frequency": "once_every_4_years",
+          "scope": ["travel_services"],
+          "auto_apply": true
+        }
+      ],
+      "lounge_access": [
+        { "network": "centurion_lounges", "guests": 2, "cost_per_guest": 0, "note": "Guests free if spend $75k+/yr or Centurion member, otherwise $50/guest" },
+        { "network": "priority_pass_select", "enrollment_required": true },
+        { "network": "delta_sky_club", "visits": 10, "condition": "When flying eligible Delta flight" },
+        { "network": "plaza_premium", "enrollment_required": true },
+        { "network": "escape_lounges" }
+      ],
+      "protections": [
+        { "type": "trip_cancellation", "max_per_trip": 10000, "max_annual": 20000 },
+        { "type": "trip_delay", "max": 500, "threshold_hours": 6 },
+        { "type": "auto_rental", "coverage": "secondary" },
+        { "type": "purchase_protection", "days": 90, "max_per_item": 10000 },
+        { "type": "return_protection", "days": 90, "max_per_item": 300 },
+        { "type": "extended_warranty", "additional_years": 1 }
+      ]
+    },
+
+    {
+      "id": "amex-gold",
+      "name": "American Express Gold Card",
+      "issuer": "amex",
+      "network": "amex",
+      "annual_fee": 325,
+      "currency": "membership_rewards",
+      "point_value_cpp": 2.0,
+      "earning": [
+        { "category": "dining", "rate": 4, "unit": "points", "cap_annual": 50000, "note": "Restaurants worldwide including takeout and delivery in the U.S." },
+        { "category": "grocery", "rate": 4, "unit": "points", "cap_annual": 25000, "condition": "U.S. supermarkets only, not Walmart/Target/wholesale clubs" },
+        { "category": "flights", "rate": 3, "unit": "points", "condition": "Booked directly with airline or on AmexTravel.com" },
+        { "category": "other", "rate": 1, "unit": "points" }
+      ],
+      "credits": [
+        {
+          "id": "gold-dining",
+          "name": "Monthly Dining Credit",
+          "value_annual": 120,
+          "frequency": "monthly",
+          "per_period_max": 10,
+          "scope": ["dining"],
+          "condition": "Grubhub, The Cheesecake Factory, Goldbelly, Wine.com, Five Guys",
+          "enrollment_required": true
+        },
+        {
+          "id": "gold-uber",
+          "name": "Uber Cash",
+          "value_annual": 120,
+          "frequency": "monthly",
+          "per_period_max": 10,
+          "scope": ["rideshare", "food_delivery"],
+          "condition": "Add card to Uber account. $10/month for Uber Eats or rides in U.S. Does not roll over."
+        },
+        {
+          "id": "gold-resy",
+          "name": "Resy Credit",
+          "value_annual": 100,
+          "frequency": "semi_annual",
+          "per_period_max": 50,
+          "scope": ["dining"],
+          "condition": "Dine at U.S. Resy restaurants or make eligible Resy purchases"
+        },
+        {
+          "id": "gold-dunkin",
+          "name": "Dunkin' Credit",
+          "value_annual": 84,
+          "frequency": "monthly",
+          "per_period_max": 7,
+          "scope": ["dining"],
+          "condition": "U.S. Dunkin' locations",
+          "enrollment_required": true
+        }
+      ],
+      "protections": [
+        { "type": "purchase_protection", "days": 90, "max_per_item": 10000 },
+        { "type": "return_protection", "days": 90, "max_per_item": 300 },
+        { "type": "extended_warranty", "additional_years": 1 }
+      ]
+    },
+
+    {
+      "id": "amex-green",
+      "name": "American Express Green Card",
+      "issuer": "amex",
+      "network": "amex",
+      "annual_fee": 150,
+      "currency": "membership_rewards",
+      "point_value_cpp": 2.0,
+      "earning": [
+        { "category": "travel", "rate": 3, "unit": "points", "note": "Airfare, hotels, cruises, tours, car rentals, campgrounds, travel websites, AmexTravel.com" },
+        { "category": "transit", "rate": 3, "unit": "points", "note": "Trains, taxis, rideshare, ferries, tolls, parking, buses, subways" },
+        { "category": "dining", "rate": 3, "unit": "points" },
+        { "category": "other", "rate": 1, "unit": "points" }
+      ],
+      "credits": [
+        {
+          "id": "green-clear",
+          "name": "CLEAR+ Membership Credit",
+          "value_annual": 209,
+          "frequency": "annual",
+          "scope": ["travel_services"],
+          "condition": "Statement credit for CLEAR+ membership",
+          "enrollment_required": true
+        }
+      ],
+      "protections": [
+        { "type": "auto_rental", "coverage": "secondary" },
+        { "type": "lost_luggage", "max_per_traveler": 1250 },
+        { "type": "purchase_protection", "days": 90 },
+        { "type": "return_protection", "days": 90 },
+        { "type": "extended_warranty", "additional_years": 1 }
+      ]
+    },
+
+    {
+      "id": "capital-one-venture-x",
+      "name": "Capital One Venture X Rewards",
+      "issuer": "capital_one",
+      "network": "visa",
+      "annual_fee": 395,
+      "currency": "capital_one_miles",
+      "point_value_cpp": 1.0,
+      "earning": [
+        { "category": "hotels", "rate": 10, "unit": "miles", "portal": "capital_one_travel" },
+        { "category": "car_rentals", "rate": 10, "unit": "miles", "portal": "capital_one_travel" },
+        { "category": "flights", "rate": 5, "unit": "miles", "portal": "capital_one_travel" },
+        { "category": "vacation_rentals", "rate": 5, "unit": "miles", "portal": "capital_one_travel" },
+        { "category": "other", "rate": 2, "unit": "miles" }
+      ],
+      "credits": [
+        {
+          "id": "vtx-travel",
+          "name": "Annual Travel Credit",
+          "value_annual": 300,
+          "frequency": "annual",
+          "scope": ["flights", "hotels", "car_rentals"],
+          "condition": "Booked through Capital One Travel portal",
+          "auto_apply": true
+        },
+        {
+          "id": "vtx-global-entry",
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value_per_cycle": 120,
+          "frequency": "once_every_4_years",
+          "scope": ["travel_services"],
+          "auto_apply": true
+        }
+      ],
+      "lounge_access": [
+        { "network": "capital_one_lounges", "guests": 0, "cost_per_guest": 35, "note": "Free guest access requires $75k annual spend. No guest access otherwise as of Feb 2026." },
+        { "network": "priority_pass", "locations": 1300, "guests": 0, "cost_per_guest": 35, "note": "As of Feb 2026, $35/guest" }
+      ],
+      "perks": [
+        {
+          "id": "vtx-anniversary-bonus",
+          "name": "Anniversary Miles Bonus",
+          "description": "10,000 bonus miles on each account anniversary"
+        }
+      ],
+      "protections": [
+        { "type": "trip_cancellation", "max_per_trip": 5000 },
+        { "type": "trip_delay", "max": 500, "threshold_hours": 6 },
+        { "type": "auto_rental", "coverage": "primary" },
+        { "type": "lost_luggage", "max_per_traveler": 3000 },
+        { "type": "purchase_protection", "days": 120 },
+        { "type": "extended_warranty", "additional_years": 1 }
+      ]
+    },
+
+    {
+      "id": "capital-one-venture",
+      "name": "Capital One Venture Rewards",
+      "issuer": "capital_one",
+      "network": "visa",
+      "annual_fee": 95,
+      "currency": "capital_one_miles",
+      "point_value_cpp": 1.0,
+      "earning": [
+        { "category": "travel_portal", "rate": 5, "unit": "miles", "portal": "capital_one_travel" },
+        { "category": "entertainment_portal", "rate": 5, "unit": "miles", "portal": "capital_one_entertainment" },
+        { "category": "other", "rate": 2, "unit": "miles" }
+      ],
+      "credits": [
+        {
+          "id": "venture-global-entry",
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value_per_cycle": 120,
+          "frequency": "once_every_4_years",
+          "scope": ["travel_services"],
+          "auto_apply": true
+        }
+      ],
+      "perks": [
+        {
+          "id": "venture-hertz",
+          "name": "Hertz Five Star Status",
+          "description": "Complimentary Hertz Five Star status for eligible cardholders"
+        }
+      ],
+      "protections": [
+        { "type": "travel_accident", "max": 250000 },
+        { "type": "auto_rental", "coverage": "secondary" },
+        { "type": "lost_luggage", "max_per_traveler": 3000 },
+        { "type": "extended_warranty", "additional_years": 1 }
+      ]
+    },
+
+    {
+      "id": "capital-one-savor",
+      "name": "Capital One Savor Cash Rewards",
+      "issuer": "capital_one",
+      "network": "mastercard",
+      "annual_fee": 0,
+      "currency": "cash_back",
+      "point_value_cpp": 1.0,
+      "earning": [
+        { "category": "entertainment_portal", "rate": 8, "unit": "percent", "portal": "capital_one_entertainment" },
+        { "category": "hotels", "rate": 5, "unit": "percent", "portal": "capital_one_travel" },
+        { "category": "car_rentals", "rate": 5, "unit": "percent", "portal": "capital_one_travel" },
+        { "category": "vacation_rentals", "rate": 5, "unit": "percent", "portal": "capital_one_travel" },
+        { "category": "dining", "rate": 3, "unit": "percent" },
+        { "category": "entertainment", "rate": 3, "unit": "percent" },
+        { "category": "streaming", "rate": 3, "unit": "percent" },
+        { "category": "grocery", "rate": 3, "unit": "percent" },
+        { "category": "other", "rate": 1, "unit": "percent" }
+      ],
+      "credits": [],
+      "protections": [
+        { "type": "travel_accident", "max": 500000 },
+        { "type": "extended_warranty", "additional_years": 1 }
+      ]
+    },
+
+    {
+      "id": "citi-strata-premier",
+      "name": "Citi Strata Premier",
+      "issuer": "citi",
+      "network": "mastercard",
+      "annual_fee": 95,
+      "currency": "thankyou_points",
+      "point_value_cpp": 1.0,
+      "earning": [
+        { "category": "hotels", "rate": 10, "unit": "points", "portal": "citi_travel" },
+        { "category": "car_rentals", "rate": 10, "unit": "points", "portal": "citi_travel" },
+        { "category": "attractions", "rate": 10, "unit": "points", "portal": "citi_travel" },
+        { "category": "flights", "rate": 3, "unit": "points" },
+        { "category": "dining", "rate": 3, "unit": "points" },
+        { "category": "gas", "rate": 3, "unit": "points", "note": "Gas stations and EV charging" },
+        { "category": "other", "rate": 1, "unit": "points" }
+      ],
+      "credits": [
+        {
+          "id": "strata-hotel",
+          "name": "Annual Hotel Credit",
+          "value_annual": 100,
+          "frequency": "annual",
+          "per_use_max": 100,
+          "scope": ["hotels"],
+          "condition": "Single hotel stay of $500+ (excl. taxes/fees) booked through Citi Travel. Once per calendar year.",
+          "auto_apply": true
+        }
+      ],
+      "protections": [
+        { "type": "trip_delay", "max": 500 },
+        { "type": "trip_cancellation", "max_per_trip": 5000 },
+        { "type": "auto_rental", "coverage": "primary", "note": "MasterRental Coverage" },
+        { "type": "lost_luggage", "max_per_traveler": 3000 },
+        { "type": "purchase_protection", "days": 120 }
+      ]
+    },
+
+    {
+      "id": "citi-double-cash",
+      "name": "Citi Double Cash",
+      "issuer": "citi",
+      "network": "mastercard",
+      "annual_fee": 0,
+      "currency": "thankyou_points",
+      "point_value_cpp": 1.0,
+      "earning": [
+        { "category": "hotels", "rate": 5, "unit": "percent", "portal": "citi_travel", "note": "3% bonus on top of base 2%" },
+        { "category": "car_rentals", "rate": 5, "unit": "percent", "portal": "citi_travel" },
+        { "category": "attractions", "rate": 5, "unit": "percent", "portal": "citi_travel" },
+        { "category": "other", "rate": 2, "unit": "percent", "note": "1% when you buy + 1% when you pay" }
+      ],
+      "credits": [],
+      "protections": [
+        { "type": "purchase_protection", "days": 120 }
+      ]
+    },
+
+    {
+      "id": "citi-custom-cash",
+      "name": "Citi Custom Cash",
+      "issuer": "citi",
+      "network": "mastercard",
+      "annual_fee": 0,
+      "currency": "thankyou_points",
+      "point_value_cpp": 1.0,
+      "earning": [
+        {
+          "category": "top_category",
+          "rate": 5,
+          "unit": "percent",
+          "cap_per_cycle": 500,
+          "note": "Automatically applied to highest-spend eligible category each billing cycle",
+          "eligible_categories": [
+            "restaurants", "gas_stations", "grocery", "travel", "transit",
+            "streaming", "drugstores", "home_improvement", "fitness", "live_entertainment"
+          ]
+        },
+        { "category": "other", "rate": 1, "unit": "percent" }
+      ],
+      "credits": [],
+      "protections": [
+        { "type": "purchase_protection", "days": 120 }
+      ]
+    },
+
+    {
+      "id": "chase-freedom-flex",
+      "name": "Chase Freedom Flex",
+      "issuer": "chase",
+      "network": "mastercard",
+      "annual_fee": 0,
+      "currency": "ultimate_rewards",
+      "point_value_cpp": 1.0,
+      "earning": [
+        {
+          "category": "rotating_quarterly",
+          "rate": 5,
+          "unit": "points",
+          "cap_per_quarter": 1500,
+          "note": "Must activate each quarter. Categories change quarterly.",
+          "q1_2026": ["dining", "american_heart_association", "norwegian_cruise_line"],
+          "q2_2026": ["amazon", "whole_foods", "chase_travel", "feeding_america"]
+        },
+        { "category": "travel_portal", "rate": 5, "unit": "points", "portal": "chase_travel" },
+        { "category": "dining", "rate": 3, "unit": "points" },
+        { "category": "drugstores", "rate": 3, "unit": "points" },
+        { "category": "other", "rate": 1, "unit": "points" }
+      ],
+      "credits": [
+        {
+          "id": "cff-dashpass",
+          "name": "DashPass Trial",
+          "value_annual": 60,
+          "frequency": "one_time",
+          "scope": ["food_delivery"],
+          "condition": "6 months complimentary DashPass. Auto-enrolls at paid rate after.",
+          "expires": "2027-12-31"
+        }
+      ],
+      "protections": [
+        { "type": "trip_cancellation", "max_per_trip": 1500 },
+        { "type": "auto_rental", "coverage": "primary", "max": 75000 },
+        { "type": "purchase_protection", "days": 120, "max_per_item": 500 },
+        { "type": "extended_warranty", "additional_years": 1 }
+      ]
+    },
+
+    {
+      "id": "chase-freedom-unlimited",
+      "name": "Chase Freedom Unlimited",
+      "issuer": "chase",
+      "network": "visa",
+      "annual_fee": 0,
+      "currency": "ultimate_rewards",
+      "point_value_cpp": 1.0,
+      "earning": [
+        { "category": "travel_portal", "rate": 5, "unit": "points", "portal": "chase_travel" },
+        { "category": "dining", "rate": 3, "unit": "points" },
+        { "category": "drugstores", "rate": 3, "unit": "points" },
+        { "category": "rideshare", "rate": 2, "unit": "points", "condition": "Lyft rides", "expires": "2027-09-30", "note": "0.5% bonus on top of 1.5% base" },
+        { "category": "other", "rate": 1.5, "unit": "points" }
+      ],
+      "credits": [],
+      "protections": [
+        { "type": "purchase_protection", "days": 120, "max_per_item": 500 },
+        { "type": "extended_warranty", "additional_years": 1 }
+      ]
+    },
+
+    {
+      "id": "discover-it-cash-back",
+      "name": "Discover it Cash Back",
+      "issuer": "discover",
+      "network": "discover",
+      "annual_fee": 0,
+      "currency": "cash_back",
+      "point_value_cpp": 1.0,
+      "earning": [
+        {
+          "category": "rotating_quarterly",
+          "rate": 5,
+          "unit": "percent",
+          "cap_per_quarter": 1500,
+          "note": "Must activate each quarter. Categories change quarterly.",
+          "q1_2026": ["grocery", "walgreens", "cvs"],
+          "q2_2026": ["restaurants", "home_improvement"]
+        },
+        { "category": "other", "rate": 1, "unit": "percent" }
+      ],
+      "credits": [],
+      "perks": [
+        {
+          "id": "discover-cashback-match",
+          "name": "Cashback Match",
+          "description": "Discover matches all cash back earned in the first year. Effectively doubles all earning rates for year one."
+        }
+      ],
+      "protections": [
+        { "type": "purchase_protection", "days": 90 },
+        { "type": "return_protection", "days": 90 },
+        { "type": "extended_warranty", "additional_years": 1 }
+      ]
+    },
+
+    {
+      "id": "wells-fargo-autograph",
+      "name": "Wells Fargo Autograph",
+      "issuer": "wells_fargo",
+      "network": "visa",
+      "annual_fee": 0,
+      "currency": "wells_fargo_rewards",
+      "point_value_cpp": 1.0,
+      "earning": [
+        { "category": "dining", "rate": 3, "unit": "points" },
+        { "category": "travel", "rate": 3, "unit": "points" },
+        { "category": "gas", "rate": 3, "unit": "points", "note": "Includes EV charging stations" },
+        { "category": "transit", "rate": 3, "unit": "points" },
+        { "category": "streaming", "rate": 3, "unit": "points", "condition": "Select streaming services" },
+        { "category": "phone_plans", "rate": 3, "unit": "points" },
+        { "category": "other", "rate": 1, "unit": "points" }
+      ],
+      "credits": [],
+      "perks": [
+        {
+          "id": "wf-transfer-partners",
+          "name": "Transfer Partners",
+          "description": "Transfer rewards to airline/hotel loyalty programs including Air France/KLM Flying Blue at 1:1"
+        }
+      ],
+      "protections": [
+        { "type": "auto_rental", "coverage": "secondary" },
+        { "type": "travel_accident", "max": 250000 },
+        { "type": "lost_luggage", "max_per_traveler": 3000 }
+      ]
+    },
+
+    {
+      "id": "wells-fargo-active-cash",
+      "name": "Wells Fargo Active Cash",
+      "issuer": "wells_fargo",
+      "network": "visa",
+      "annual_fee": 0,
+      "currency": "cash_back",
+      "point_value_cpp": 1.0,
+      "earning": [
+        { "category": "other", "rate": 2, "unit": "percent" }
+      ],
+      "credits": [],
+      "perks": [
+        {
+          "id": "wfac-phone-protection",
+          "name": "Cell Phone Protection",
+          "description": "Up to $600 per claim for damaged/stolen phone when cell bill charged to card. $25 deductible. Max $1,200/year, max 2 claims/year."
+        }
+      ],
+      "protections": [
+        { "type": "cellphone_protection", "max_per_claim": 600, "deductible": 25, "max_annual": 1200, "max_claims_annual": 2, "condition": "Must pay cell phone bill with this card" },
+        { "type": "auto_rental", "coverage": "secondary", "max": 50000 },
+        { "type": "purchase_protection", "days": 120 },
+        { "type": "extended_warranty", "additional_years": 1 }
+      ]
+    },
+
+    {
+      "id": "amex-blue-cash-preferred",
+      "name": "Blue Cash Preferred Card from American Express",
+      "issuer": "amex",
+      "network": "amex",
+      "annual_fee": 95,
+      "annual_fee_intro": 0,
+      "annual_fee_intro_period": "first_year",
+      "currency": "cash_back",
+      "point_value_cpp": 1.0,
+      "earning": [
+        { "category": "grocery", "rate": 6, "unit": "percent", "cap_annual": 6000, "rate_after_cap": 1, "condition": "U.S. supermarkets only" },
+        { "category": "streaming", "rate": 6, "unit": "percent", "condition": "Select U.S. streaming subscriptions" },
+        { "category": "gas", "rate": 3, "unit": "percent", "condition": "U.S. gas stations" },
+        { "category": "transit", "rate": 3, "unit": "percent", "note": "Taxis, rideshare, parking, tolls, trains, buses" },
+        { "category": "other", "rate": 1, "unit": "percent" }
+      ],
+      "credits": [
+        {
+          "id": "bcp-disney-streaming",
+          "name": "Disney Streaming Bundle Credit",
+          "value_annual": 120,
+          "frequency": "monthly",
+          "per_period_max": 10,
+          "scope": ["streaming"],
+          "condition": "Disney+, Hulu, or ESPN+ subscriptions purchased at DisneyPlus.com, Hulu.com, or Stream.ESPN.com",
+          "enrollment_required": true
+        }
+      ],
+      "protections": [
+        { "type": "purchase_protection", "days": 90, "max_per_item": 1000 },
+        { "type": "return_protection", "days": 90, "max_per_item": 300 },
+        { "type": "extended_warranty", "additional_years": 1 },
+        { "type": "car_rental_insurance", "coverage": "secondary" }
+      ]
+    },
+
+    {
+      "id": "us-bank-altitude-reserve",
+      "name": "U.S. Bank Altitude Reserve Visa Infinite",
+      "issuer": "us_bank",
+      "network": "visa",
+      "annual_fee": 400,
+      "currency": "altitude_points",
+      "point_value_cpp": 1.5,
+      "earning": [
+        { "category": "travel", "rate": 3, "unit": "points" },
+        { "category": "mobile_wallet", "rate": 3, "unit": "points", "cap_per_cycle": 5000, "note": "Apple Pay, Google Pay, Samsung Pay — any merchant" },
+        { "category": "dining", "rate": 3, "unit": "points", "note": "Also covers takeout and delivery" },
+        { "category": "other", "rate": 1, "unit": "points" }
+      ],
+      "credits": [
+        {
+          "id": "usar-travel-dining",
+          "name": "Annual Travel and Dining Credit",
+          "value_annual": 325,
+          "frequency": "annual",
+          "scope": ["travel", "dining"],
+          "auto_apply": true,
+          "note": "Covers eligible travel and dining/takeout/delivery purchases"
+        },
+        {
+          "id": "usar-global-entry",
+          "name": "Global Entry / TSA PreCheck Credit",
+          "value_per_cycle": 100,
+          "frequency": "once_every_4_years",
+          "scope": ["travel_services"],
+          "auto_apply": true
+        }
+      ],
+      "lounge_access": [
+        { "network": "priority_pass_select", "visits": 8, "note": "8 free visits per year to 1,500+ lounges" }
+      ],
+      "protections": [
+        { "type": "trip_cancellation", "max_per_trip": 5000 },
+        { "type": "trip_delay", "max": 500 },
+        { "type": "auto_rental", "coverage": "primary" },
+        { "type": "lost_luggage", "max_per_traveler": 3000 },
+        { "type": "purchase_protection", "days": 120 },
+        { "type": "extended_warranty", "additional_years": 1 },
+        { "type": "cellphone_protection", "max_per_claim": 600, "deductible": 25, "max_annual": 1200, "condition": "Must pay cell phone bill with this card" }
+      ]
+    }
+  ],
+
+  "category_definitions": {
+    "dining": "Restaurants, cafes, bars, fast food, takeout, delivery",
+    "grocery": "Supermarkets, grocery stores. Usually excludes Walmart, Target, wholesale clubs (Costco, Sam's Club)",
+    "gas": "Gas stations, EV charging stations",
+    "travel": "Airlines, hotels, car rentals, cruises, travel agencies, campgrounds",
+    "flights": "Airline purchases only",
+    "hotels": "Hotel bookings only",
+    "car_rentals": "Car rental agencies",
+    "transit": "Trains, buses, subways, taxis, rideshare, ferries, tolls, parking",
+    "rideshare": "Uber, Lyft, and similar services",
+    "streaming": "Video and music streaming subscriptions",
+    "entertainment": "Concerts, movies, sporting events, amusement parks, theaters",
+    "drugstores": "Pharmacies and drugstores",
+    "home_improvement": "Home improvement and hardware stores",
+    "phone_plans": "Wireless/cell phone plan payments",
+    "food_delivery": "DoorDash, Uber Eats, Grubhub, and similar delivery services",
+    "fitness": "Gym memberships, fitness subscriptions",
+    "shopping": "General retail purchases",
+    "travel_portal": "Purchases made through issuer's own travel booking portal",
+    "entertainment_portal": "Purchases made through issuer's own entertainment portal",
+    "travel_services": "Global Entry, TSA PreCheck, CLEAR, and similar",
+    "airline_incidentals": "Baggage fees, seat upgrades, in-flight purchases (not airfare)",
+    "other": "All purchases not matching another category",
+    "top_category": "Automatically determined: highest-spend eligible category per billing cycle",
+    "rotating_quarterly": "Categories that change each quarter and require activation",
+    "mobile_wallet": "Any purchase made via Apple Pay, Google Pay, or Samsung Pay"
+  },
+
+  "issuer_portals": {
+    "chase_travel": "chase.com/travel",
+    "amex_travel": "amextravel.com",
+    "capital_one_travel": "capitalone.com/travel",
+    "capital_one_entertainment": "capitalone.com/entertainment",
+    "citi_travel": "citi.com/travel"
+  },
+
+  "frequency_definitions": {
+    "monthly": "Resets each calendar month. Unused amounts do not roll over.",
+    "quarterly": "Resets each calendar quarter (Jan-Mar, Apr-Jun, Jul-Sep, Oct-Dec).",
+    "semi_annual": "Resets twice per year, typically Jan-Jun and Jul-Dec.",
+    "annual": "Resets each calendar year or cardmember year depending on issuer.",
+    "per_use": "Applied per qualifying transaction, subject to annual cap.",
+    "once_every_4_years": "One-time credit that resets approximately every 4 years.",
+    "one_time": "Applied once, does not recur."
+  }
+}
