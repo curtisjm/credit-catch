@@ -50,7 +50,7 @@ docker-compose up -d
 cd backend && make migrate-up && make run
 
 # Run web (separate terminal)
-cd web && npm install && npm run dev
+cd web && pnpm install && pnpm run dev
 ```
 
 ## Status
