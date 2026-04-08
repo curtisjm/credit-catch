@@ -1,4 +1,4 @@
-.PHONY: build run test lint migrate-up migrate-down db-up db-down clean
+.PHONY: build run test test-integration lint migrate-up migrate-down db-up db-down clean
 
 BINARY   := creditcatch-server
 DB_URL   ?= postgres://creditcatch:creditcatch@localhost:5432/creditcatch?sslmode=disable
@@ -11,6 +11,9 @@ run: build
 
 test:
 	go test ./... -v -race -count=1
+
+test-integration:
+	DATABASE_URL=$(DB_URL) JWT_SECRET=test-secret go test ./... -tags=integration -v -race -count=1
 
 lint:
 	go vet ./...

@@ -85,25 +85,26 @@ func GeneratePeriodsForCard(ctx context.Context, db *pgxpool.Pool, userCardID st
 func currentMonthlyPeriod(now time.Time, closeDay int) (time.Time, time.Time) {
 	y, m, d := now.Date()
 
-	// Clamp close day to actual days in month.
-	closeDay = clampDay(y, m, closeDay)
+	// Clamp close day to actual days in current month.
+	closeDayClamped := clampDay(y, m, closeDay)
 
-	if d <= closeDay {
-		// We're in the period that ends this month on closeDay.
+	if d <= closeDayClamped {
+		// We're in the period that ends this month on closeDayClamped.
 		prevMonth := time.Date(y, m-1, 1, 0, 0, 0, 0, time.UTC)
-		startDay := clampDay(prevMonth.Year(), prevMonth.Month(), closeDay) + 1
+		prevCloseDay := clampDay(prevMonth.Year(), prevMonth.Month(), closeDay)
+		startDay := prevCloseDay + 1
 		// Handle case where startDay exceeds days in prev month (close day is last day).
 		if startDay > daysInMonth(prevMonth.Year(), prevMonth.Month()) {
 			// Start is the 1st of current month.
 			return time.Date(y, m, 1, 0, 0, 0, 0, time.UTC),
-				time.Date(y, m, closeDay, 0, 0, 0, 0, time.UTC)
+				time.Date(y, m, closeDayClamped, 0, 0, 0, 0, time.UTC)
 		}
 		return time.Date(prevMonth.Year(), prevMonth.Month(), startDay, 0, 0, 0, 0, time.UTC),
-			time.Date(y, m, closeDay, 0, 0, 0, 0, time.UTC)
+			time.Date(y, m, closeDayClamped, 0, 0, 0, 0, time.UTC)
 	}
 
 	// We're past closeDay, so we're in the period that starts this month.
-	startDay := closeDay + 1
+	startDay := closeDayClamped + 1
 	nextMonth := time.Date(y, m+1, 1, 0, 0, 0, 0, time.UTC)
 	endDay := clampDay(nextMonth.Year(), nextMonth.Month(), closeDay)
 	return time.Date(y, m, startDay, 0, 0, 0, 0, time.UTC),
