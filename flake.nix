@@ -35,7 +35,37 @@
             curl
           ];
 
-          shellHook = ''
+          shellHook = let
+            db-start = pkgs.writeShellScriptBin "db-start" ''
+              export PGDATA="''${PGDATA:-$PWD/${pgdata}}"
+              if [ ! -d "$PGDATA" ]; then
+                echo "Initializing postgres..."
+                ${pkgs.postgresql_16}/bin/initdb --no-locale --encoding=UTF8 -U ${pguser} > /dev/null
+                echo "unix_socket_directories = '$PGDATA'" >> "$PGDATA/postgresql.conf"
+                echo "port = ${pgport}" >> "$PGDATA/postgresql.conf"
+                echo "listen_addresses = 'localhost'" >> "$PGDATA/postgresql.conf"
+              fi
+              if ! ${pkgs.postgresql_16}/bin/pg_ctl status -D "$PGDATA" > /dev/null 2>&1; then
+                ${pkgs.postgresql_16}/bin/pg_ctl start -D "$PGDATA" -l "$PGDATA/postgres.log" -o "-k $PGDATA"
+                sleep 1
+                ${pkgs.postgresql_16}/bin/createdb -h "$PGDATA" -p ${pgport} ${pgdb} 2>/dev/null || true
+                echo "Postgres running on port ${pgport}"
+              else
+                echo "Postgres already running"
+              fi
+            '';
+            db-stop = pkgs.writeShellScriptBin "db-stop" ''
+              export PGDATA="''${PGDATA:-$PWD/${pgdata}}"
+              ${pkgs.postgresql_16}/bin/pg_ctl stop -D "$PGDATA" 2>/dev/null || echo "Postgres not running"
+            '';
+            db-reset = pkgs.writeShellScriptBin "db-reset" ''
+              export PGDATA="''${PGDATA:-$PWD/${pgdata}}"
+              ${db-stop}/bin/db-stop
+              rm -rf "$PGDATA"
+              ${db-start}/bin/db-start
+              echo "Database reset"
+            '';
+          in ''
             export PGDATA="$PWD/${pgdata}"
             export PGHOST="$PWD/${pgdata}"
             export PGPORT="${pgport}"
@@ -46,43 +76,13 @@
             export PORT="8080"
             export ENVIRONMENT="development"
 
-            # Go tools
             export GOBIN="$PWD/.go/bin"
-            export PATH="$GOBIN:$PATH"
+            export PATH="${db-start}/bin:${db-stop}/bin:${db-reset}/bin:$GOBIN:$PATH"
+
             if [ ! -f "$GOBIN/migrate" ]; then
               echo "Installing golang-migrate..."
               go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest 2>/dev/null
             fi
-
-            db-start() {
-              if [ ! -d "$PGDATA" ]; then
-                echo "Initializing postgres..."
-                initdb --no-locale --encoding=UTF8 -U ${pguser} > /dev/null
-                echo "unix_socket_directories = '$PGDATA'" >> "$PGDATA/postgresql.conf"
-                echo "port = ${pgport}" >> "$PGDATA/postgresql.conf"
-              fi
-              if ! pg_ctl status > /dev/null 2>&1; then
-                pg_ctl start -l "$PGDATA/postgres.log" -o "-k $PGDATA"
-                sleep 1
-                createdb ${pgdb} 2>/dev/null || true
-                echo "Postgres running on port ${pgport}"
-              else
-                echo "Postgres already running"
-              fi
-            }
-
-            db-stop() {
-              pg_ctl stop 2>/dev/null || echo "Postgres not running"
-            }
-
-            db-reset() {
-              db-stop
-              rm -rf "$PGDATA"
-              db-start
-              echo "Database reset"
-            }
-
-            export -f db-start db-stop db-reset
 
             echo "credit-catch dev environment loaded"
             echo "  db-start  — start postgres"

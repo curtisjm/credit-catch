@@ -1,7 +1,7 @@
 .PHONY: build run test test-integration lint migrate-up migrate-down db-up db-down clean
 
 BINARY   := creditcatch-server
-DB_URL   ?= postgres://creditcatch:creditcatch@localhost:5432/creditcatch?sslmode=disable
+DB_URL   ?= $(DATABASE_URL)
 
 build:
 	go build -o bin/$(BINARY) ./cmd/server
