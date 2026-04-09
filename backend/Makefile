@@ -1,4 +1,4 @@
-.PHONY: build run test test-integration lint migrate-up migrate-down db-up db-down clean
+.PHONY: build run test test-integration lint migrate-up migrate-down db-up db-down seed clean
 
 BINARY   := creditcatch-server
 DB_URL   ?= $(DATABASE_URL)
@@ -35,6 +35,9 @@ db-up:
 
 db-down:
 	docker compose down
+
+seed:
+	go run ./cmd/seed ../shared/seed/card_catalog.json
 
 clean:
 	rm -rf bin/

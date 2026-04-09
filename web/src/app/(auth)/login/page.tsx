@@ -57,7 +57,7 @@ export default function LoginPage() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="rounded-lg bg-danger/15 px-4 py-3 text-sm text-danger">
+          <div className="rounded-lg bg-destructive/15 px-4 py-3 text-sm text-destructive">
             {error}
           </div>
         )}
@@ -69,6 +69,7 @@ export default function LoginPage() {
             type="email"
             required
             autoComplete="email"
+            placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -81,6 +82,7 @@ export default function LoginPage() {
             type="password"
             required
             autoComplete="current-password"
+            placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

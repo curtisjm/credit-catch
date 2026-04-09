@@ -26,11 +26,14 @@ export default function SignupPage() {
       router.push("/dashboard");
     } catch (err) {
       if (err instanceof ApiError) {
-        setError(
-          err.status === 409
-            ? "An account with this email already exists"
-            : "Something went wrong. Please try again.",
-        );
+        if (err.status === 409) {
+          setError("An account with this email already exists");
+        } else if (err.status === 400) {
+          const body = err.body as { error?: string } | null;
+          setError(body?.error || "Please check your input and try again.");
+        } else {
+          setError("Something went wrong. Please try again.");
+        }
       } else {
         setError("Unable to connect. Please try again.");
       }
@@ -58,7 +61,7 @@ export default function SignupPage() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="rounded-lg bg-danger/15 px-4 py-3 text-sm text-danger">
+          <div className="rounded-lg bg-destructive/15 px-4 py-3 text-sm text-destructive">
             {error}
           </div>
         )}
@@ -70,6 +73,7 @@ export default function SignupPage() {
             type="text"
             required
             autoComplete="name"
+            placeholder="Jane Doe"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -82,6 +86,7 @@ export default function SignupPage() {
             type="email"
             required
             autoComplete="email"
+            placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -94,6 +99,7 @@ export default function SignupPage() {
             type="password"
             required
             autoComplete="new-password"
+            placeholder="Min. 8 characters"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
