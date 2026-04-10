@@ -79,7 +79,8 @@
           "per_period_max": 25,
           "scope": ["food_delivery"],
           "condition": "$5/mo restaurant discount + two $10/mo non-restaurant discounts",
-          "auto_apply": false
+          "auto_apply": false,
+          "expires": "2027-12-31"
         },
         {
           "id": "csr-apple-subs",
@@ -98,7 +99,8 @@
           "per_period_max": 150,
           "periods": ["jan-jun", "jul-dec"],
           "scope": ["entertainment"],
-          "condition": "StubHub or viagogo purchases"
+          "condition": "StubHub or viagogo purchases",
+          "expires": "2027-12-31"
         },
         {
           "id": "csr-lyft",
@@ -117,7 +119,8 @@
           "frequency": "monthly",
           "per_period_max": 10,
           "scope": ["fitness"],
-          "condition": "Eligible Peloton memberships. Plus 10x points on equipment over $150."
+          "condition": "Eligible Peloton memberships. Plus 10x points on equipment over $150.",
+          "expires": "2027-12-31"
         },
         {
           "id": "csr-global-entry",
@@ -206,7 +209,8 @@
           "per_period_max": 10,
           "scope": ["food_delivery"],
           "condition": "$10/mo non-restaurant DoorDash orders (groceries, retail, etc.)",
-          "auto_apply": false
+          "auto_apply": false,
+          "expires": "2027-12-31"
         }
       ],
       "perks": [
@@ -324,6 +328,25 @@
           "frequency": "annual",
           "scope": ["shopping"],
           "condition": "Oura Ring hardware purchases at ouraring.com. Excludes subscriptions and accessories.",
+          "enrollment_required": true
+        },
+        {
+          "id": "plat-walmart",
+          "name": "Walmart+ Membership Credit",
+          "value_annual": 155,
+          "frequency": "monthly",
+          "per_period_max": 12.95,
+          "scope": ["shopping"],
+          "condition": "Statement credit for Walmart+ monthly membership ($12.95/mo). Must use monthly billing, not annual.",
+          "enrollment_required": true
+        },
+        {
+          "id": "plat-equinox",
+          "name": "Equinox Credit",
+          "value_annual": 300,
+          "frequency": "annual",
+          "scope": ["fitness"],
+          "condition": "Equinox club memberships or Equinox+ digital fitness app subscriptions",
           "enrollment_required": true
         },
         {
@@ -706,6 +729,17 @@
           "scope": ["food_delivery"],
           "condition": "6 months complimentary DashPass. Auto-enrolls at paid rate after.",
           "expires": "2027-12-31"
+        },
+        {
+          "id": "cff-doordash-quarterly",
+          "name": "DoorDash Quarterly Non-Restaurant Credit",
+          "value_annual": 40,
+          "frequency": "quarterly",
+          "per_period_max": 10,
+          "scope": ["food_delivery"],
+          "condition": "$10/quarter off non-restaurant DoorDash orders while enrolled in DashPass",
+          "auto_apply": false,
+          "expires": "2027-12-31"
         }
       ],
       "protections": [
@@ -731,7 +765,28 @@
         { "category": "rideshare", "rate": 2, "unit": "points", "condition": "Lyft rides", "expires": "2027-09-30", "note": "0.5% bonus on top of 1.5% base" },
         { "category": "other", "rate": 1.5, "unit": "points" }
       ],
-      "credits": [],
+      "credits": [
+        {
+          "id": "cfu-dashpass",
+          "name": "DashPass Trial",
+          "value_annual": 60,
+          "frequency": "one_time",
+          "scope": ["food_delivery"],
+          "condition": "6 months complimentary DashPass. Auto-enrolls at paid rate after.",
+          "expires": "2027-12-31"
+        },
+        {
+          "id": "cfu-doordash-quarterly",
+          "name": "DoorDash Quarterly Non-Restaurant Credit",
+          "value_annual": 40,
+          "frequency": "quarterly",
+          "per_period_max": 10,
+          "scope": ["food_delivery"],
+          "condition": "$10/quarter off non-restaurant DoorDash orders while enrolled in DashPass",
+          "auto_apply": false,
+          "expires": "2027-12-31"
+        }
+      ],
       "protections": [
         { "type": "purchase_protection", "days": 120, "max_per_item": 500 },
         { "type": "extended_warranty", "additional_years": 1 }
