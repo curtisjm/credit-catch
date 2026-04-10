@@ -39,7 +39,7 @@ func (s *Server) handleListCredits(w http.ResponseWriter, r *http.Request) {
 	status := q.Get("status")
 	userCardID := q.Get("user_card_id")
 
-	query := `SELECT cp.id, cp.user_card_id, cp.period_start, cp.period_end,
+	query := `SELECT cp.id, cp.user_card_id, cp.period_start::text, cp.period_end::text,
 	                 cp.used, cp.used_at, cp.amount_used_cents, cp.transaction_id,
 	                 cd.id, cd.name, cd.description, cd.amount_cents, cd.period, cd.category
 	          FROM credit_periods cp
@@ -113,7 +113,7 @@ func (s *Server) handleCurrentCredits(w http.ResponseWriter, r *http.Request) {
 
 	// Get all current credit periods grouped by user card.
 	rows, err := s.db.Query(r.Context(),
-		`SELECT cp.id, cp.user_card_id, cp.period_start, cp.period_end,
+		`SELECT cp.id, cp.user_card_id, cp.period_start::text, cp.period_end::text,
 		        cp.used, cp.used_at, cp.amount_used_cents, cp.transaction_id,
 		        cd.id, cd.name, cd.description, cd.amount_cents, cd.period, cd.category,
 		        uc.id, uc.nickname, uc.opened_date, uc.annual_fee_date,
@@ -239,7 +239,7 @@ func (s *Server) handleMarkUnused(w http.ResponseWriter, r *http.Request) {
 func (s *Server) respondWithCreditPeriod(w http.ResponseWriter, r *http.Request, cpID, userID string) {
 	var p creditPeriodResponse
 	err := s.db.QueryRow(r.Context(),
-		`SELECT cp.id, cp.user_card_id, cp.period_start, cp.period_end,
+		`SELECT cp.id, cp.user_card_id, cp.period_start::text, cp.period_end::text,
 		        cp.used, cp.used_at, cp.amount_used_cents, cp.transaction_id,
 		        cd.id, cd.name, cd.description, cd.amount_cents, cd.period, cd.category
 		 FROM credit_periods cp
