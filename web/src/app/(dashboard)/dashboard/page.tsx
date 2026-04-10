@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
 import {
   Card,
   CardContent,
@@ -7,21 +10,87 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { mockDashboard, mockCredits } from "@/lib/mock-data";
+import { api, ApiError } from "@/lib/api";
+import type { DashboardSummary, CurrentCardCredits, CreditPeriod } from "@/types/api";
 
 function formatDollars(cents: number): string {
   return `$${(cents / 100).toFixed(2)}`;
 }
 
-const statusBadge = {
-  used: { variant: "success" as const, label: "Used" },
-  expiring: { variant: "warning" as const, label: "Expiring" },
-  expired: { variant: "danger" as const, label: "Expired" },
-  upcoming: { variant: "default" as const, label: "Upcoming" },
-};
+function creditStatus(cp: CreditPeriod): {
+  variant: "success" | "warning" | "danger" | "default";
+  label: string;
+} {
+  if (cp.used) return { variant: "success", label: "Used" };
+  const end = new Date(cp.period_end);
+  const now = new Date();
+  const daysLeft = Math.ceil(
+    (end.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+  );
+  if (daysLeft < 0) return { variant: "danger", label: "Expired" };
+  if (daysLeft <= 7) return { variant: "warning", label: "Expiring" };
+  return { variant: "default", label: "Upcoming" };
+}
 
 export default function DashboardPage() {
-  const d = mockDashboard;
+  const [dashboard, setDashboard] = useState<DashboardSummary | null>(null);
+  const [cardCredits, setCardCredits] = useState<CurrentCardCredits[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const fetchData = useCallback(async () => {
+    try {
+      const [dashRes, creditsRes] = await Promise.all([
+        api.get<DashboardSummary>("/api/v1/me/dashboard/summary"),
+        api.get<{ data: CurrentCardCredits[] }>("/api/v1/me/credits/current"),
+      ]);
+      setDashboard(dashRes);
+      setCardCredits(creditsRes.data);
+    } catch (err) {
+      setError(
+        err instanceof ApiError
+          ? `Error: ${err.status}`
+          : "Failed to load dashboard",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+        <div className="mt-4 rounded-lg bg-destructive/15 px-4 py-3 text-sm text-destructive">
+          {error}
+        </div>
+      </>
+    );
+  }
+
+  if (!dashboard) return null;
+
+  const d = dashboard;
+
+  // Flatten all credit periods for the "Recent Credits" section
+  const recentCredits = cardCredits.flatMap((cc) =>
+    cc.credits.map((cp) => ({
+      ...cp,
+      card_name: cc.user_card.card.name,
+    })),
+  );
 
   return (
     <>
@@ -106,32 +175,38 @@ export default function DashboardPage() {
       </h2>
       <Card className="mt-4">
         <CardContent>
-          <div className="divide-y divide-border">
-            {mockCredits.map((credit) => {
-              const badge = statusBadge[credit.status];
-              return (
-                <div
-                  key={credit.id}
-                  className="flex items-center justify-between py-3"
-                >
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      {credit.credit_name}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {credit.card_name}
-                    </p>
+          {recentCredits.length === 0 ? (
+            <p className="py-4 text-center text-sm text-muted-foreground">
+              No credits to show yet.
+            </p>
+          ) : (
+            <div className="divide-y divide-border">
+              {recentCredits.map((credit) => {
+                const status = creditStatus(credit);
+                return (
+                  <div
+                    key={credit.id}
+                    className="flex items-center justify-between py-3"
+                  >
+                    <div>
+                      <p className="text-sm font-medium text-foreground">
+                        {credit.credit_definition.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {credit.card_name}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-medium text-foreground">
+                        {formatDollars(credit.credit_definition.amount_cents)}
+                      </span>
+                      <Badge variant={status.variant}>{status.label}</Badge>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium text-foreground">
-                      {formatDollars(credit.amount_cents)}
-                    </span>
-                    <Badge variant={badge.variant}>{badge.label}</Badge>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </CardContent>
       </Card>
     </>
