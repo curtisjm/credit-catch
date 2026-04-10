@@ -1,7 +1,20 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  CreditCard,
+  Plus,
+  Trash2,
+  Receipt,
+  Building2,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +26,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Dollars } from "@/components/dollars";
+import { CardsSkeleton } from "@/components/skeletons";
 import { api, ApiError } from "@/lib/api";
+import { toast } from "sonner";
 import type {
   CatalogCard,
   CatalogCardDetail,
@@ -21,8 +37,19 @@ import type {
   Paginated,
 } from "@/types/api";
 
-function formatDollars(cents: number): string {
-  return `$${(cents / 100).toFixed(0)}`;
+const ISSUER_COLORS: Record<string, string> = {
+  chase: "border-l-blue-500",
+  amex: "border-l-sky-400",
+  "capital one": "border-l-red-500",
+  citi: "border-l-indigo-500",
+  "bank of america": "border-l-red-600",
+  barclays: "border-l-cyan-500",
+  discover: "border-l-orange-500",
+  wells_fargo: "border-l-yellow-600",
+};
+
+function issuerAccent(issuer: string): string {
+  return ISSUER_COLORS[issuer.toLowerCase()] || "border-l-muted-foreground";
 }
 
 function capitalize(s: string): string {
@@ -54,7 +81,9 @@ export default function CardsPage() {
       setCatalog(catalogRes.data);
       setUserCards(userCardsRes.data);
     } catch (err) {
-      setError(err instanceof ApiError ? `Error: ${err.status}` : "Failed to load cards");
+      setError(
+        err instanceof ApiError ? `Error: ${err.status}` : "Failed to load cards",
+      );
     } finally {
       setLoading(false);
     }
@@ -68,14 +97,16 @@ export default function CardsPage() {
 
   const handleAddClick = async (card: CatalogCard) => {
     try {
-      const detail = await api.get<CatalogCardDetail>(`/api/v1/cards/${card.id}`);
+      const detail = await api.get<CatalogCardDetail>(
+        `/api/v1/cards/${card.id}`,
+      );
       setAddingCard(detail);
       setNickname("");
       setStatementDay("1");
       setAddError("");
       setDialogOpen(true);
     } catch {
-      setError("Failed to load card details");
+      toast.error("Failed to load card details");
     }
   };
 
@@ -94,6 +125,9 @@ export default function CardsPage() {
       });
       setUserCards((prev) => [...prev, newCard]);
       setDialogOpen(false);
+      toast.success(`${addingCard.name} added`, {
+        description: `Now tracking ${addingCard.credits?.length || 0} credits`,
+      });
     } catch (err) {
       if (err instanceof ApiError && err.status === 409) {
         setAddError("You already have this card");
@@ -105,27 +139,24 @@ export default function CardsPage() {
     }
   };
 
-  const handleRemove = async (userCardId: string) => {
+  const handleRemove = async (userCard: UserCard) => {
     try {
-      await api.delete(`/api/v1/me/cards/${userCardId}`);
-      setUserCards((prev) => prev.filter((uc) => uc.id !== userCardId));
+      await api.delete(`/api/v1/me/cards/${userCard.id}`);
+      setUserCards((prev) => prev.filter((uc) => uc.id !== userCard.id));
+      toast.success(`${userCard.card.name} removed`);
     } catch {
-      setError("Failed to remove card");
+      toast.error("Failed to remove card");
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-      </div>
-    );
-  }
+  if (loading) return <CardsSkeleton />;
+
+  const isEmpty = userCards.length === 0 && catalog.length === 0;
 
   return (
     <>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-foreground">Cards</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Cards</h1>
       </div>
 
       {error && (
@@ -134,119 +165,158 @@ export default function CardsPage() {
         </div>
       )}
 
-      {/* User's cards */}
-      {userCards.length > 0 && (
+      {isEmpty ? (
+        <Card className="mt-6">
+          <CardContent className="flex flex-col items-center py-12 text-center">
+            <CreditCard className="size-12 text-muted-foreground" />
+            <h2 className="mt-4 text-lg font-semibold">No cards available</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              The card catalog is empty. Check back soon.
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
         <>
-          <h2 className="mt-6 text-lg font-semibold text-foreground">My Cards</h2>
+          {/* User's cards */}
+          {userCards.length > 0 && (
+            <>
+              <h2 className="mt-6 text-lg font-semibold">My Cards</h2>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {userCards.map((uc) => (
+                  <Card
+                    key={uc.id}
+                    className={`border-l-4 ${issuerAccent(uc.card.issuer)}`}
+                  >
+                    <CardHeader className="pb-3">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <CardTitle className="text-base">
+                            {uc.card.name}
+                          </CardTitle>
+                          <CardDescription className="flex items-center gap-1">
+                            <Building2 className="size-3" />
+                            {capitalize(uc.card.issuer)}
+                          </CardDescription>
+                        </div>
+                        <Badge variant="secondary">{uc.card.network}</Badge>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      {uc.nickname && (
+                        <p className="text-sm italic text-muted-foreground">
+                          &ldquo;{uc.nickname}&rdquo;
+                        </p>
+                      )}
+                      <div className="mt-2 flex items-center justify-between">
+                        <span className="text-xs text-muted-foreground">
+                          <Dollars
+                            cents={uc.card.annual_fee}
+                            showCents={false}
+                            className="text-xs"
+                          />
+                          /yr fee
+                        </span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="gap-1 text-destructive hover:text-destructive"
+                          onClick={() => handleRemove(uc)}
+                        >
+                          <Trash2 className="size-3.5" />
+                          Remove
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              <Separator className="my-8" />
+            </>
+          )}
+
+          {/* Card catalog */}
+          <h2 className="text-lg font-semibold">
+            {userCards.length > 0 ? "Add More Cards" : "Browse Card Catalog"}
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Select a card to start tracking its credits
+          </p>
+
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {userCards.map((uc) => (
-              <Card key={uc.id}>
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <CardTitle className="text-base">{uc.card.name}</CardTitle>
-                      <p className="text-sm text-muted-foreground">
-                        {capitalize(uc.card.issuer)}
-                      </p>
+            {catalog.map((card) => {
+              const owned = userCardIds.has(card.id);
+              return (
+                <Card
+                  key={card.id}
+                  className={`border-l-4 ${issuerAccent(card.issuer)} ${owned ? "opacity-50" : ""}`}
+                >
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <CardTitle className="text-base">{card.name}</CardTitle>
+                        <CardDescription className="flex items-center gap-1">
+                          <Building2 className="size-3" />
+                          {capitalize(card.issuer)}
+                        </CardDescription>
+                      </div>
+                      <Badge variant="secondary">{card.network}</Badge>
                     </div>
-                    <Badge variant="secondary">{uc.card.network}</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  {uc.nickname && (
-                    <p className="text-sm text-muted-foreground">&ldquo;{uc.nickname}&rdquo;</p>
-                  )}
-                  <div className="mt-2 flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      {formatDollars(uc.card.annual_fee)}/yr fee
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-destructive hover:text-destructive"
-                      onClick={() => handleRemove(uc.id)}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-muted-foreground">
+                        <Dollars
+                          cents={card.annual_fee}
+                          showCents={false}
+                          className="text-xs"
+                        />
+                        /yr
+                      </span>
+                      {owned ? (
+                        <Badge variant="success">Added</Badge>
+                      ) : (
+                        <Button size="sm" onClick={() => handleAddClick(card)}>
+                          <Plus className="mr-1 size-3.5" />
+                          Add Card
+                        </Button>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
-          <Separator className="my-8" />
         </>
       )}
 
-      {/* Card catalog */}
-      <h2 className="text-lg font-semibold text-foreground">
-        {userCards.length > 0 ? "Add More Cards" : "Browse Card Catalog"}
-      </h2>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Select a card to start tracking its credits
-      </p>
-
-      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {catalog.map((card) => {
-          const owned = userCardIds.has(card.id);
-          return (
-            <Card
-              key={card.id}
-              className={owned ? "opacity-50" : ""}
-            >
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle className="text-base">{card.name}</CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                      {capitalize(card.issuer)}
-                    </p>
-                  </div>
-                  <Badge variant="secondary">{card.network}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">
-                    {formatDollars(card.annual_fee)}/yr
-                  </span>
-                  {owned ? (
-                    <Badge variant="success">Added</Badge>
-                  ) : (
-                    <Button
-                      size="sm"
-                      onClick={() => handleAddClick(card)}
-                    >
-                      Add Card
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
+      {/* Add Card Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <CreditCard className="size-5 text-primary" />
               Add {addingCard?.name}
             </DialogTitle>
           </DialogHeader>
           {addingCard && (
             <>
               {addingCard.credits.length > 0 && (
-                <div className="mb-4">
-                  <p className="text-sm font-medium text-muted-foreground mb-2">
-                    Credits you&apos;ll track:
+                <div className="rounded-lg bg-accent p-3">
+                  <p className="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <Receipt className="size-3.5" />
+                    Credits you&apos;ll track
                   </p>
-                  <div className="space-y-1">
+                  <div className="space-y-1.5">
                     {addingCard.credits.map((c) => (
-                      <div key={c.id} className="flex justify-between text-sm">
+                      <div
+                        key={c.id}
+                        className="flex justify-between text-sm"
+                      >
                         <span>{c.name}</span>
-                        <span className="text-primary font-medium">
-                          {formatDollars(c.amount_cents)}/{c.period === "monthly" ? "mo" : "yr"}
-                        </span>
+                        <Dollars
+                          cents={c.amount_cents}
+                          className="text-sm font-medium text-primary"
+                        />
                       </div>
                     ))}
                   </div>
@@ -282,14 +352,18 @@ export default function CardsPage() {
                     Day of the month your statement closes (1-31)
                   </p>
                 </div>
-                <Button type="submit" disabled={addLoading} className="w-full">
+                <Button
+                  type="submit"
+                  disabled={addLoading}
+                  className="w-full"
+                >
                   {addLoading ? "Adding..." : "Add Card"}
                 </Button>
               </form>
             </>
           )}
         </DialogContent>
-        </Dialog>
+      </Dialog>
     </>
   );
 }

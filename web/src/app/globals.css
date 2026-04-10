@@ -133,9 +133,40 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground text-[13px] leading-relaxed;
   }
   html {
-    @apply font-sans;
+    @apply font-sans antialiased;
+  }
+  h1 {
+    @apply text-[32px] font-bold leading-tight tracking-tight;
+  }
+  h2 {
+    @apply text-lg font-semibold leading-snug;
+  }
+  h3 {
+    @apply text-base font-semibold leading-snug;
+  }
+  label,
+  [data-slot="label"] {
+    @apply text-sm font-medium;
+  }
+}
+
+/* Smooth page content transitions */
+@layer utilities {
+  .page-enter {
+    animation: page-in 200ms ease-out;
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
